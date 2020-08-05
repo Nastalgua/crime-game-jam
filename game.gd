@@ -7,9 +7,10 @@ const BASE = "res://scenes/Base.tscn"
 
 const RICH_ENDING = 700
 const POOR_ENDING = 100
-var money = 1000
 
-const TOTAL_LEVELS = 5
+var money = 550
+
+const TOTAL_LEVELS = 4
 var current_level = 0
 
 onready var animation_player = get_node("Transition/AnimationPlayer")
@@ -23,8 +24,9 @@ func _init():
 	to_base()
 
 func _process(delta):
-	#get_node("UI/Money").text = "$" + str(money)
 	add_minion()
+	
+	get_node("UI/Money").text = "$" + str(money)
 	
 	if current_level == TOTAL_LEVELS:
 		if self.has_node("Level"):
@@ -38,8 +40,6 @@ func _process(delta):
 			base.queue_free()
 		
 		var endings = load(ENDINGS_PATH).instance()
-		
-		#endings.ending_text = "Stupid"
 		
 		self.add_child(endings)
 
@@ -89,9 +89,9 @@ func transition_to_level(lvl_num):
 
 func add_minion():
 	if Input.is_action_just_pressed("ui_add_minion") and self.has_node("Level"):
-		self.money -= 100
-		var minion = load(MINION_PATH).instance()
-		minion.position = Vector2(512, 384)
-	
-		get_node("Level/Characters").add_child(minion)
-		return true
+		if get_node("Level/Characters").get_child_count() < 10:
+			self.money -= 100
+			var minion = load(MINION_PATH).instance()
+			minion.position = Vector2(512, 384)
+			get_node("Level/Characters").add_child(minion)
+			return true
