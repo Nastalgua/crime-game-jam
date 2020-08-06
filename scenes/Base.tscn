@@ -119,3 +119,4 @@ position = Vector2( 176, 336 )
 
 [node name="Interactable" parent="Interactables" instance=ExtResource( 9 )]
 position = Vector2( 480, 592 )
+level = 1
